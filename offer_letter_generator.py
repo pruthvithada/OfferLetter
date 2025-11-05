@@ -4,21 +4,42 @@ from io import BytesIO
 from datetime import date
 
 
-# Optional: define your own credentials here
+# ----------------- SIMPLE AUTHENTICATION (with Login Button) -----------------
+import streamlit as st
+
+# --- Define valid HR users ---
 VALID_USERS = {
-    "pruthvi": "Paarth@2025",       # username: password
-    "shiva": "BAnalyst@312231",
+    "pruthvi": "Paarth@2025",
+    "shiva ": "BAnalyst@312231",
 }
+
+# Initialize session state for login tracking
+if "authenticated" not in st.session_state:
+    st.session_state.authenticated = False
 
 # Sidebar login section
 st.sidebar.title("🔐 HR Login")
-username = st.sidebar.text_input("Username")
-password = st.sidebar.text_input("Password", type="password")
 
-# Check credentials
-if username not in VALID_USERS or VALID_USERS[username] != password:
-    st.warning("Please log in with valid HR credentials to access this tool.")
-    st.stop()
+if not st.session_state.authenticated:
+    username = st.sidebar.text_input("Username")
+    password = st.sidebar.text_input("Password", type="password")
+
+    login_btn = st.sidebar.button("Login")
+
+    if login_btn:
+        if username in VALID_USERS and VALID_USERS[username] == password:
+            st.session_state.authenticated = True
+            st.success(f"✅ Welcome, {username}!")
+        else:
+            st.error("❌ Invalid username or password. Please try again.")
+    else:
+        st.info("Please log in to access the Offer Letter Generator.")
+        st.stop()
+else:
+    st.sidebar.success("✅ Logged in successfully.")
+    if st.sidebar.button("Logout"):
+        st.session_state.authenticated = False
+        st.experimental_rerun()
 # ----------------------------------------------------------
 
 
