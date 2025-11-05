@@ -1,0 +1,6 @@
+streamlit
+python-docx
+reportlab
+requests
+# If you plan to use CloudConvert Python client:
+# cloudconvert
