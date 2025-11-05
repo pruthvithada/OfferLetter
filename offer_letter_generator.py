@@ -3,6 +3,25 @@ from docx import Document
 from io import BytesIO
 from datetime import date
 
+
+# Optional: define your own credentials here
+VALID_USERS = {
+    "pruthvi": "Paarth@2025",       # username: password
+    "shiva": "BAnalyst@312231",
+}
+
+# Sidebar login section
+st.sidebar.title("🔐 HR Login")
+username = st.sidebar.text_input("Username")
+password = st.sidebar.text_input("Password", type="password")
+
+# Check credentials
+if username not in VALID_USERS or VALID_USERS[username] != password:
+    st.warning("Please log in with valid HR credentials to access this tool.")
+    st.stop()
+# ----------------------------------------------------------
+
+
 def generate_offer_letter(name, title, address, manager, joining_date, consultancy_line):
     # Load the original template
     doc = Document("Offer Letter.docx")
