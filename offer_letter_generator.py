@@ -43,7 +43,7 @@ else:
 # ----------------------------------------------------------
 
 
-def generate_offer_letter(name, title, address, manager name, joining_date, consultancy_line):
+def generate_offer_letter(name, title, address, managername, joining_date, consultancy_line):
     # Load the original template
     doc = Document("Offer Letter.docx")
 
@@ -55,7 +55,7 @@ def generate_offer_letter(name, title, address, manager name, joining_date, cons
         if "Employee Address" in p.text:
             p.text = p.text.replace("Employee Address", address)
         if "Manager Name" in p.text:
-            p.text = p.text.replace("Manager Name", manager name)
+            p.text = p.text.replace("Manager Name", managername)
         if "Date of Joining" in p.text:
             p.text = p.text.replace("Date of Joining", joining_date)
         # Replace the entire consultancy fee line
@@ -76,7 +76,7 @@ with st.form("offer_form"):
     name = st.text_input("Employee Name")
     title = st.text_input("Designation / Title")
     address = st.text_area("Employee Address")
-    manager name = st.text_input("Manager Name")
+    managername = st.text_input("Manager Name")
     joining_date = st.date_input("Date of Joining", date.today()).strftime("%d-%m-%Y")
     consultancy_line = st.text_area(
         "Consultancy Fee Line (Full sentence)",
@@ -86,10 +86,10 @@ with st.form("offer_form"):
     submitted = st.form_submit_button("Generate Offer Letter")
 
 if submitted:
-    if not all([name, title, address, manager name, consultancy_line]):
+    if not all([name, title, address, managername, consultancy_line]):
         st.error("⚠️ Please fill all fields before generating.")
     else:
-        doc_file = generate_offer_letter(name, title, address, manager name, joining_date, consultancy_line)
+        doc_file = generate_offer_letter(name, title, address, managername, joining_date, consultancy_line)
         st.success("✅ Offer Letter Generated Successfully!")
         st.download_button(
             label="⬇️ Download Offer Letter (.docx)",
@@ -97,4 +97,5 @@ if submitted:
             file_name=f"Offer_Letter_{name.replace(' ', '_')}.docx",
             mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         )
+
 
